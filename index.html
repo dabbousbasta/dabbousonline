@@ -42,7 +42,6 @@
             opacity: 0.9;
         }
         
-        /* Filter Buttons */
         .filter-container {
             text-align: center;
             margin-bottom: 30px;
@@ -69,7 +68,6 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
         
-        /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -149,16 +147,26 @@
             background: #20BA5A;
         }
         
-        .whatsapp-icon {
-            margin-left: 8px;
-        }
-        
         footer {
             text-align: center;
             margin-top: 50px;
             padding: 20px;
             color: #666;
             font-size: 0.9em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.5em;
+            color: #667eea;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: red;
         }
         
         @media (max-width: 768px) {
@@ -180,14 +188,10 @@
             <div class="subtitle">من الأساس حتى التشطيب</div>
         </header>
         
-        <!-- Filter Buttons -->
-        <div class="filter-container" id="filterContainer">
-            <!-- Will be filled by JavaScript -->
-        </div>
+        <div class="filter-container" id="filterContainer"></div>
         
-        <!-- Products Grid -->
         <div class="products-grid" id="productsGrid">
-            <!-- Will be filled by JavaScript -->
+            <div class="loading">⏳ جارٍ تحميل المنتجات...</div>
         </div>
         
         <footer>
@@ -197,100 +201,18 @@
     </div>
     
     <script>
-        // =============================================
-        // إعدادات المتجر - عدّل من هنا
-        // =============================================
-        
         const STORE_CONFIG = {
-            storeName: "دبوس اونلاين", // اسم المتجر
-            whatsappNumber: "9613947353", // رقم الواتساب (بدون +، مع رمز الدولة)
-            currency: "$" // العملة
+            storeName: "دبوس اونلاين",
+            whatsappNumber: "9613947353",
+            currency: "$"
         };
         
-        // =============================================
-        // قائمة المنتجات - أضف منتجاتك هنا
-        // =============================================
+        let products = [];
         
-        const products = [
-            {
-                id: 1,
-                name: "خلاط مطبخ ستانلس",
-                category: "خلاطات",
-                description: "خلاط مطبخ عالي الجودة من الستانلس ستيل، تصميح عصري، ضمان سنة كاملة",
-                price: 15,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 2,
-                name: "مغسل انكستري 80 سم",
-                category: "مغاسل",
-                description: "مغسل انكستري 80 سم، سيراميك فاخر، تصميم عصري يناسب جميع المطابخ",
-                price: 200,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 3,
-                name: "خلاط حمام ذهبي",
-                category: "خلاطات",
-                description: "خلاط حمام فاخر لون ذهبي، مقاومة للصدأ، سهولة في التركيب",
-                price: 35,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 4,
-                name: "بورسلان أرضية 60x60",
-                category: "بورسلان",
-                description: "بورسلان أرضية قياس 60x60، ألوان متعددة، مقاومة للخدش، من إيطاليا",
-                price: 10,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 5,
-                name: "خلاط دش مزدوج",
-                category: "خلاطات",
-                description: "خلاط دش مزدوج، تحكم بالحرارة، ستانلس ستيل، ضمان سنتين",
-                price: 50,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 6,
-                name: "مغسل انكستري 100 سم",
-                category: "مغاسل",
-                description: "مغسل انكستري 100 سم، حوضين، سيراميك فاخر، مثالي للمطابخ الكبيرة",
-                price: 300,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 7,
-                name: "بورسلان جدار 30x60",
-                category: "بورسلان",
-                description: "بورسلان جدار 30x60، مناسب للحمامات والمطابخ، ألوان هادئة",
-                price: 9,
-                image: "images/دبوس اونلاين.jpg"
-            },
-            {
-                id: 8,
-                name: "خلاط حوض بارد",
-                category: "خلاطات",
-                description: "خلاط حوض بارد، تصميم بسيط، ستانلس ستيل، سعر اقتصادي",
-                price: 65000,
-                image: "images/دبوس اونلاين.jpg"
-            }
-        ];
-        
-        // =============================================
-        // لا تعدّل من هنا للأسفل (إلا إذا كنت تعرف JavaScript)
-        // =============================================
-        
-        // Get unique categories
-        const categories = ["الكل", ...new Set(products.map(p => p.category))];
-        
-        // Format price
         function formatPrice(price) {
             return price.toLocaleString() + " " + STORE_CONFIG.currency;
         }
         
-        // Create WhatsApp message
         function getWhatsAppMessage(product) {
             const message = `مرحباً، أريد الاستفسار عن المنتج:\n\n` +
                            `*${product.name}*\n` +
@@ -300,21 +222,20 @@
             return encodeURIComponent(message);
         }
         
-        // Render filter buttons
         function renderFilters() {
+            const categories = ["الكل", ...new Set(products.map(p => p.category))];
             const filterContainer = document.getElementById('filterContainer');
-            filterContainer.innerHTML = categories.map(cat => 
-                `<button class="filter-btn ${cat === 'الكل' ? 'active' : ''}" 
+            filterContainer.innerHTML = categories.map((cat, index) => 
+                `<button class="filter-btn ${index === 0 ? 'active' : ''}" 
                          onclick="filterProducts('${cat}', this)">${cat}</button>`
             ).join('');
         }
         
-        // Render products
         function renderProducts(productsToRender) {
             const productsGrid = document.getElementById('productsGrid');
             productsGrid.innerHTML = productsToRender.map(product => `
                 <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=لا+توجد+صورة'">
                     <div class="product-info">
                         <div class="product-category">${product.category}</div>
                         <div class="product-name">${product.name}</div>
@@ -329,13 +250,10 @@
             `).join('');
         }
         
-        // Filter products
         function filterProducts(category, btn) {
-            // Update active button
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Filter and render
             if (category === 'الكل') {
                 renderProducts(products);
             } else {
@@ -343,15 +261,32 @@
             }
         }
         
-        // Initialize
         function init() {
             document.getElementById('storeName').textContent = STORE_CONFIG.storeName;
             renderFilters();
             renderProducts(products);
         }
         
-        // Run
-        init();
+        // تحميل المنتجات من ملف JSON
+        fetch('https://raw.githubusercontent.com/dbbos/dbbos.github.io/main/products.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('فشل تحميل المنتجات');
+                }
+                return response.json();
+            })
+            .then(data => {
+                products = data;
+                init();
+            })
+            .catch(error => {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = 
+                    `<div class="error">
+                        ❌ حدث خطأ في تحميل المنتجات<br>
+                        <small>تأكد من أن اسم المستخدم GitHub صحيح وأن ملف products.json موجود</small>
+                    </div>`;
+            });
     </script>
 </body>
 </html>
