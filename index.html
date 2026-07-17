@@ -325,7 +325,7 @@
         }
         
         // تحميل المنتجات من ملف JSON
-        fetch('https://raw.githubusercontent.com/dbbos/dbbos.github.io/main/products.json')
+        fetch('https://raw.githubusercontent.com/dabbousbasta/dabbousonline/main/products.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('فشل تحميل المنتجات');
@@ -341,7 +341,7 @@
                 document.getElementById('productsGrid').innerHTML = 
                     `<div class="error">
                         ❌ حدث خطأ في تحميل المنتجات<br>
-                        <small>تأكد من أن اسم المستخدم GitHub صحيح وأن ملف products.json موجود</small>
+                        <small>تأكد من أن ملف products.json موجود في المستودع</small>
                     </div>`;
             });
     </script>
