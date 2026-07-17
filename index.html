@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دبوس اونلاين</title>
+    
+    <!-- أيقونة الموقع (favicon) -->
+    <link rel="icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
+    <link rel="shortcut icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
+    <link rel="apple-touch-icon" href="images/دبوس اونلاين.jpg">
+    
     <style>
         * {
             margin: 0;
@@ -30,11 +36,37 @@
             margin-bottom: 30px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .store-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-color: white;
+        }
+        
+        .store-title {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
         
         h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         
         .subtitle {
@@ -170,8 +202,28 @@
         }
         
         @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .store-title {
+                align-items: center;
+                text-align: center;
+            }
+            
             h1 {
                 font-size: 1.8em;
+            }
+            
+            .store-logo {
+                width: 80px;
+                height: 80px;
             }
             
             .products-grid {
@@ -184,8 +236,13 @@
 <body>
     <div class="container">
         <header>
-            <h1 id="storeName">دبوس اونلاين</h1>
-            <div class="subtitle">من الأساس حتى التشطيب</div>
+            <div class="logo-container">
+                <img src="images/دبوس اونلاين.jpg" alt="شعار المتجر" class="store-logo" onerror="this.style.display='none'">
+                <div class="store-title">
+                    <h1 id="storeName">دبوس اونلاين</h1>
+                    <div class="subtitle">من الأساس حتى التشطيب</div>
+                </div>
+            </div>
         </header>
         
         <div class="filter-container" id="filterContainer"></div>
