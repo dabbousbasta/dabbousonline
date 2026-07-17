@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الأدوات الصحية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        /* Filter Buttons */
+        .filter-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-category {
+            color: #667eea;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .product-name {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-size: 1.6em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-btn {
+            display: block;
+            width: 100%;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+        }
+        
+        .whatsapp-icon {
+            margin-left: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="storeName">متجر الأدوات الصحية</h1>
+            <div class="subtitle">أفضل المنتجات بأفضل الأسعار</div>
+        </header>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-container" id="filterContainer">
+            <!-- Will be filled by JavaScript -->
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Will be filled by JavaScript -->
+        </div>
+        
+        <footer>
+            <p>جميع الحقوق محفوظة © 2026</p>
+            <p>للتواصل: اضغط على زر الواتساب تحت أي منتج</p>
+        </footer>
+    </div>
+    
+    <script>
+        // =============================================
+        // إعدادات المتجر - عدّل من هنا
+        // =============================================
+        
+        const STORE_CONFIG = {
+            storeName: "متجر الأدوات الصحية", // اسم المتجر
+            whatsappNumber: "96170000000", // رقم الواتساب (بدون +، مع رمز الدولة)
+            currency: "ل.ل" // العملة
+        };
+        
+        // =============================================
+        // قائمة المنتجات - أضف منتجاتك هنا
+        // =============================================
+        
+        const products = [
+            {
+                id: 1,
+                name: "خلاط مطبخ ستانلس",
+                category: "خلاطات",
+                description: "خلاط مطبخ عالي الجودة من الستانلس ستيل، تصميح عصري، ضمان سنة كاملة",
+                price: 150000,
+                image: "https://via.placeholder.com/400x300/667eea/ffffff?text=خلاط+مطبخ"
+            },
+            {
+                id: 2,
+                name: "مغسل انكستري 80 سم",
+                category: "مغاسل",
+                description: "مغسل انكستري 80 سم، سيراميك فاخر، تصميم عصري يناسب جميع المطابخ",
+                price: 450000,
+                image: "https://via.placeholder.com/400x300/764ba2/ffffff?text=مغسل+انكستري"
+            },
+            {
+                id: 3,
+                name: "خلاط حمام ذهبي",
+                category: "خلاطات",
+                description: "خلاط حمام فاخر لون ذهبي، مقاومة للصدأ، سهولة في التركيب",
+                price: 280000,
+                image: "https://via.placeholder.com/400x300/667eea/ffffff?text=خلاط+حمام"
+            },
+            {
+                id: 4,
+                name: "بورسلان أرضية 60x60",
+                category: "بورسلان",
+                description: "بورسلان أرضية قياس 60x60، ألوان متعددة، مقاومة للخدش، من إيطاليا",
+                price: 85000,
+                image: "https://via.placeholder.com/400x300/764ba2/ffffff?text=بورسلان+60x60"
+            },
+            {
+                id: 5,
+                name: "خلاط دش مزدوج",
+                category: "خلاطات",
+                description: "خلاط دش مزدوج، تحكم بالحرارة، ستانلس ستيل، ضمان سنتين",
+                price: 320000,
+                image: "https://via.placeholder.com/400x300/667eea/ffffff?text=خلاط+دش"
+            },
+            {
+                id: 6,
+                name: "مغسل انكستري 100 سم",
+                category: "مغاسل",
+                description: "مغسل انكستري 100 سم، حوضين، سيراميك فاخر، مثالي للمطابخ الكبيرة",
+                price: 650000,
+                image: "https://via.placeholder.com/400x300/764ba2/ffffff?text=مغسل+100سم"
+            },
+            {
+                id: 7,
+                name: "بورسلان جدار 30x60",
+                category: "بورسلان",
+                description: "بورسلان جدار 30x60، مناسب للحمامات والمطابخ، ألوان هادئة",
+                price: 45000,
+                image: "https://via.placeholder.com/400x300/667eea/ffffff?text=بورسلان+جدار"
+            },
+            {
+                id: 8,
+                name: "خلاط حوض بارد",
+                category: "خلاطات",
+                description: "خلاط حوض بارد، تصميم بسيط، ستانلس ستيل، سعر اقتصادي",
+                price: 65000,
+                image: "https://via.placeholder.com/400x300/764ba2/ffffff?text=خلاط+بارد"
+            }
+        ];
+        
+        // =============================================
+        // لا تعدّل من هنا للأسفل (إلا إذا كنت تعرف JavaScript)
+        // =============================================
+        
+        // Get unique categories
+        const categories = ["الكل", ...new Set(products.map(p => p.category))];
+        
+        // Format price
+        function formatPrice(price) {
+            return price.toLocaleString() + " " + STORE_CONFIG.currency;
+        }
+        
+        // Create WhatsApp message
+        function getWhatsAppMessage(product) {
+            const message = `مرحباً، أريد الاستفسار عن المنتج:\n\n` +
+                           `*${product.name}*\n` +
+                           `السعر: ${formatPrice(product.price)}\n` +
+                           `المواصفات: ${product.description}\n\n` +
+                           `هل يتوفر؟`;
+            return encodeURIComponent(message);
+        }
+        
+        // Render filter buttons
+        function renderFilters() {
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = categories.map(cat => 
+                `<button class="filter-btn ${cat === 'الكل' ? 'active' : ''}" 
+                         onclick="filterProducts('${cat}', this)">${cat}</button>`
+            ).join('');
+        }
+        
+        // Render products
+        function renderProducts(productsToRender) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = productsToRender.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <a href="https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${getWhatsAppMessage(product)}" 
+                           class="whatsapp-btn" target="_blank">
+                            📱 اطلب عبر واتساب
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter products
+        function filterProducts(category, btn) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter and render
+            if (category === 'الكل') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
+            }
+        }
+        
+        // Initialize
+        function init() {
+            document.getElementById('storeName').textContent = STORE_CONFIG.storeName;
+            renderFilters();
+            renderProducts(products);
+        }
+        
+        // Run
+        init();
+    </script>
+</body>
+</html>
