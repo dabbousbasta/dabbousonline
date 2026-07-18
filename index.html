@@ -259,124 +259,132 @@
         </footer>
     </div>
     
-   <script>
-    const STORE_CONFIG = {
-        storeName: "دبوس اونلاين",
-        whatsappNumber: "9613947353",
-        currency: "$"
-    };
-    
-    let products = [];
-    let categories = [];
-    
-    function formatPrice(price) {
-        return price.toLocaleString() + " " + STORE_CONFIG.currency;
-    }
-    
-    function getWhatsAppMessage(product) {
-        const message = `مرحباً، أريد الاستفسار عن المنتج:\n\n` +
-                       `*${product.name}*\n` +
-                       `السعر: ${formatPrice(product.price)}\n` +
-                       `المواصفات: ${product.description}\n\n` +
-                       `هل يتوفر؟`;
-        return encodeURIComponent(message);
-    }
-    
-    function renderFilters() {
-        const filterContainer = document.getElementById('filterContainer');
-        filterContainer.innerHTML = categories.map((cat, index) => 
-            `<button class="filter-btn ${index === 0 ? 'active' : ''}" 
-                     onclick="filterProducts('${cat}', this)">${cat}</button>`
-        ).join('');
-    }
-    
-    function renderProducts(productsToRender) {
-        const productsGrid = document.getElementById('productsGrid');
-        productsGrid.innerHTML = productsToRender.map(product => `
-            <div class="product-card">
-                <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=لا+توجد+صورة'">
-                <div class="product-info">
-                    <div class="product-category">${product.category}</div>
-                    <div class="product-name">${product.name}</div>
-                    <div class="product-description">${product.description}</div>
-                    <div class="product-price">${formatPrice(product.price)}</div>
-                    <a href="https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${getWhatsAppMessage(product)}" 
-                       class="whatsapp-btn" target="_blank">
-                        📱 اطلب عبر واتساب
-                    </a>
-                </div>
-            </div>
-        `).join('');
-    }
-    
-    function filterProducts(category, btn) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    <script>
+        const STORE_CONFIG = {
+            storeName: "دبوس اونلاين",
+            whatsappNumber: "9613947353",
+            currency: "$"
+        };
         
-        if (category === 'الكل') {
-            renderProducts(products);
-        } else {
-            renderProducts(products.filter(p => p.category === category));
+        let products = [];
+        let categories = [];
+        
+        function formatPrice(price) {
+            return price.toLocaleString() + " " + STORE_CONFIG.currency;
         }
-    }
-    
-    function init() {
-        document.getElementById('storeName').textContent = STORE_CONFIG.storeName;
-        renderFilters();
-        renderProducts(products);
-    }
-    
-    // ===== تحميل البيانات من Google Sheets =====
-    const SHEET_ID = "13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0";
-    
-    // تحميل المنتجات
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`)
-        .then(res => res.text())
-        .then(text => {
-            const json = JSON.parse(text.substr(47).slice(0, -2));
+        
+        function getWhatsAppMessage(product) {
+            const message = `مرحباً، أريد الاستفسار عن المنتج:\n\n` +
+                           `*${product.name}*\n` +
+                           `السعر: ${formatPrice(product.price)}\n` +
+                           `المواصفات: ${product.description}\n\n` +
+                           `هل يتوفر؟`;
+            return encodeURIComponent(message);
+        }
+        
+        function renderFilters() {
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = categories.map((cat, index) => 
+                `<button class="filter-btn ${index === 0 ? 'active' : ''}" 
+                         onclick="filterProducts('${cat}', this)">${cat}</button>`
+            ).join('');
+        }
+        
+        function renderProducts(productsToRender) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = productsToRender.map(product => {
+                // إذا ما في صورة، استخدم الصورة الافتراضية
+                const imageSrc = product.image && product.image.trim() !== '' 
+                    ? product.image 
+                    : 'images/دبوس اونلاين.jpg';
+                
+                return `
+                    <div class="product-card">
+                        <img src="${imageSrc}" alt="${product.name}" class="product-image" 
+                             onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=لا+توجد+صورة'">
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-price">${formatPrice(product.price)}</div>
+                            <a href="https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${getWhatsAppMessage(product)}" 
+                               class="whatsapp-btn" target="_blank">
+                                📱 اطلب عبر واتساب
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function filterProducts(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
             
-            products = json.table.rows.map(row => {
-                const c = row.c;
-                return {
-                    id: c[0] ? c[0].v : 0,
-                    name: c[1] ? c[1].v : '',
-                    category: c[2] ? c[2].v : '',
-                    description: c[3] ? c[3].v : '',
-                    price: c[4] ? c[4].v : 0,
-                    image: c[5] ? c[5].v : ''
-                };
-            });
-            
-            console.log('Products:', products);
-            
-            // تحميل التصنيفات
-            fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Categories`)
-                .then(res => res.text())
-                .then(text => {
-                    const json = JSON.parse(text.substr(47).slice(0, -2));
-                    const cats = json.table.rows
-                        .map(row => row.c[0] ? row.c[0].v : '')
-                        .filter(cat => cat && cat !== 'category'); // استبعد كلمة category
-                    
-                    categories = ["الكل", ...cats];
-                    console.log('Categories:', categories);
-                    init();
-                })
-                .catch(() => {
-                    const uniqueCats = [...new Set(products.map(p => p.category))];
-                    categories = ["الكل", ...uniqueCats];
-                    console.log('Categories from products:', categories);
-                    init();
+            if (category === 'الكل') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
+            }
+        }
+        
+        function init() {
+            document.getElementById('storeName').textContent = STORE_CONFIG.storeName;
+            renderFilters();
+            renderProducts(products);
+        }
+        
+        // ===== تحميل البيانات من Google Sheets =====
+        const SHEET_ID = "13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0";
+        
+        // تحميل المنتجات
+        fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`)
+            .then(res => res.text())
+            .then(text => {
+                const json = JSON.parse(text.substr(47).slice(0, -2));
+                
+                products = json.table.rows.map(row => {
+                    const c = row.c;
+                    return {
+                        id: c[0] ? c[0].v : 0,
+                        name: c[1] ? c[1].v : '',
+                        category: c[2] ? c[2].v : '',
+                        description: c[3] ? c[3].v : '',
+                        price: c[4] ? c[4].v : 0,
+                        image: c[5] ? c[5].v : ''
+                    };
                 });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('productsGrid').innerHTML = 
-                `<div class="error">
-                    ❌ حدث خطأ في تحميل المنتجات<br>
-                    <small>${error.message}</small>
-                </div>`;
-        });
-</script>
+                
+                console.log('Products:', products);
+                
+                // تحميل التصنيفات
+                fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Categories`)
+                    .then(res => res.text())
+                    .then(text => {
+                        const json = JSON.parse(text.substr(47).slice(0, -2));
+                        const cats = json.table.rows
+                            .map(row => row.c[0] ? row.c[0].v : '')
+                            .filter(cat => cat && cat !== 'category');
+                        
+                        categories = ["الكل", ...cats];
+                        console.log('Categories:', categories);
+                        init();
+                    })
+                    .catch(() => {
+                        const uniqueCats = [...new Set(products.map(p => p.category))];
+                        categories = ["الكل", ...uniqueCats];
+                        console.log('Categories from products:', categories);
+                        init();
+                    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('productsGrid').innerHTML = 
+                    `<div class="error">
+                        ❌ حدث خطأ في تحميل المنتجات<br>
+                        <small>${error.message}</small>
+                    </div>`;
+            });
+    </script>
 </body>
 </html>
