@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دبوس اونلاين</title>
     
-    <!-- أيقونة الموقع (favicon) -->
+    <!-- أيقونة الموقع -->
     <link rel="icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
     <link rel="shortcut icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
-    <link rel="apple-touch-icon" href="images/دبوس اونلاين.jpg">
     
-    <!-- خط Cairo من Google Fonts -->
+    <!-- خط Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- مكتبة لقراءة Google Sheets -->
+    <script src="https://cdn.jsdelivr.net/gh/rezzvy/gsheety@latest/dist/gsheety.min.js"></script>
     
     <style>
         * {
@@ -268,6 +270,7 @@
         };
         
         let products = [];
+        let categories = [];
         
         function formatPrice(price) {
             return price.toLocaleString() + " " + STORE_CONFIG.currency;
@@ -283,7 +286,6 @@
         }
         
         function renderFilters() {
-            const categories = ["الكل", ...new Set(products.map(p => p.category))];
             const filterContainer = document.getElementById('filterContainer');
             filterContainer.innerHTML = categories.map((cat, index) => 
                 `<button class="filter-btn ${index === 0 ? 'active' : ''}" 
@@ -327,24 +329,40 @@
             renderProducts(products);
         }
         
-        // تحميل المنتجات من ملف JSON
-        fetch('https://raw.githubusercontent.com/dabbousbasta/dabbousonline/main/products.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('فشل تحميل المنتجات');
-                }
-                return response.json();
-            })
+        // =====️ تحميل البيانات من Google Sheets =====
+        
+        // ⚠️ استبدل هذا الرابط برابط Google Sheet الخاص بك
+        const https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing = "https://docs.google.com/spreadsheets/d/1ABC123xyz_EDIT_لرابط_طويل_جدا/edit#gid=0";
+        
+        // تحميل المنتجات
+        Gsheety.get(https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing, { sheet: "Products" })
             .then(data => {
                 products = data;
-                init();
+                
+                // إذا في ورقة Categories، استخدمها
+                Gsheety.get(https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing, { sheet: "Categories" })
+                    .then(catData => {
+                        if (catData && catData.length > 0) {
+                            categories = ["الكل", ...catData.map(row => row.category)];
+                        } else {
+                            // إذا ما في، خذ من المنتجات
+                            const uniqueCategories = [...new Set(products.map(p => p.category))];
+                            categories = ["الكل", ...uniqueCategories];
+                        }
+                        init();
+                    })
+                    .catch(() => {
+                        const uniqueCategories = [...new Set(products.map(p => p.category))];
+                        categories = ["الكل", ...uniqueCategories];
+                        init();
+                    });
             })
             .catch(error => {
                 console.error('Error loading products:', error);
                 document.getElementById('productsGrid').innerHTML = 
                     `<div class="error">
                         ❌ حدث خطأ في تحميل المنتجات<br>
-                        <small>تأكد من أن ملف products.json موجود في المستودع</small>
+                        <small>تأكد من أن رابط Google Sheet صحيح ومتاح للجميع</small>
                     </div>`;
             });
     </script>
