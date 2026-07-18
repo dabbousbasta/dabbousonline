@@ -329,54 +329,44 @@
         // ===== تحميل البيانات من Google Sheets =====
         const SHEET_ID = "13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0";
         
-        // تحميل المنتجات من ورقة Products
+        // تحميل المنتجات
         fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('فشل تحميل المنتجات - تأكد من اسم الورقة "Products"');
-                }
-                return response.text();
-            })
+            .then(res => res.text())
             .then(text => {
-                // إزالة البادئة من Google
-                const jsonText = text.substring(47).slice(0, -2);
-                const data = JSON.parse(jsonText);
+                const json = JSON.parse(text.substr(47).slice(0, -2));
                 
-                // تحويل البيانات
-                products = data.table.rows.map(row => ({
-                    id: row.c[0]?.v || '',
-                    name: row.c[1]?.v || '',
-                    category: row.c[2]?.v || '',
-                    description: row.c[3]?.v || '',
-                    price: row.c[4]?.v || 0,
-                    image: row.c[5]?.v || ''
-                }));
+                products = json.table.rows.map(row => {
+                    const c = row.c;
+                    return {
+                        id: c[0] ? c[0].v : 0,
+                        name: c[1] ? c[1].v : '',
+                        category: c[2] ? c[2].v : '',
+                        description: c[3] ? c[3].v : '',
+                        price: c[4] ? c[4].v : 0,
+                        image: c[5] ? c[5].v : ''
+                    };
+                });
                 
-                // محاولة تحميل التصنيفات
+                // تحميل التصنيفات
                 fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Categories`)
-                    .then(response => response.text())
+                    .then(res => res.text())
                     .then(text => {
-                        const jsonText = text.substring(47).slice(0, -2);
-                        const data = JSON.parse(jsonText);
-                        categories = ["الكل", ...data.table.rows.map(row => row.c[0]?.v || '')];
+                        const json = JSON.parse(text.substr(47).slice(0, -2));
+                        categories = ["الكل", ...json.table.rows.map(row => row.c[0] ? row.c[0].v : '')];
                         init();
                     })
                     .catch(() => {
-                        // إذا ما في ورقة Categories، خذ من المنتجات
-                        const uniqueCategories = [...new Set(products.map(p => p.category))];
-                        categories = ["الكل", ...uniqueCategories];
+                        const uniqueCats = [...new Set(products.map(p => p.category))];
+                        categories = ["الكل", ...uniqueCats];
                         init();
                     });
             })
             .catch(error => {
-                console.error('Error loading products:', error);
+                console.error('Error:', error);
                 document.getElementById('productsGrid').innerHTML = 
                     `<div class="error">
                         ❌ حدث خطأ في تحميل المنتجات<br>
-                        <small>تأكد من:</small><br>
-                        <small>1. أن sheet متاح للجميع (Anyone with the link)</small><br>
-                        <small>2. أن ورقة اسمها "Products" موجودة</small><br>
-                        <small>3. أن في بيانات بالورقة</small>
+                        <small>${error.message}</small>
                     </div>`;
             });
     </script>
