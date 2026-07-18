@@ -12,9 +12,6 @@
     <!-- خط Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- مكتبة لقراءة Google Sheets -->
-    <script src="https://cdn.jsdelivr.net/gh/rezzvy/gsheety@latest/dist/gsheety.min.js"></script>
-    
     <style>
         * {
             margin: 0;
@@ -329,29 +326,43 @@
             renderProducts(products);
         }
         
-        // =====️ تحميل البيانات من Google Sheets =====
+        // ===== تحميل البيانات من Google Sheets =====
+        const SHEET_ID = "13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0";
         
-        // ⚠️ استبدل هذا الرابط برابط Google Sheet الخاص بك
-        const https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing = "https://docs.google.com/spreadsheets/d/1ABC123xyz_EDIT_لرابط_طويل_جدا/edit#gid=0";
-        
-        // تحميل المنتجات
-        Gsheety.get(https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing, { sheet: "Products" })
-            .then(data => {
-                products = data;
+        // تحميل المنتجات من ورقة Products
+        fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('فشل تحميل المنتجات - تأكد من اسم الورقة "Products"');
+                }
+                return response.text();
+            })
+            .then(text => {
+                // إزالة البادئة من Google
+                const jsonText = text.substring(47).slice(0, -2);
+                const data = JSON.parse(jsonText);
                 
-                // إذا في ورقة Categories، استخدمها
-                Gsheety.get(https://docs.google.com/spreadsheets/d/13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0/edit?usp=sharing, { sheet: "Categories" })
-                    .then(catData => {
-                        if (catData && catData.length > 0) {
-                            categories = ["الكل", ...catData.map(row => row.category)];
-                        } else {
-                            // إذا ما في، خذ من المنتجات
-                            const uniqueCategories = [...new Set(products.map(p => p.category))];
-                            categories = ["الكل", ...uniqueCategories];
-                        }
+                // تحويل البيانات
+                products = data.table.rows.map(row => ({
+                    id: row.c[0]?.v || '',
+                    name: row.c[1]?.v || '',
+                    category: row.c[2]?.v || '',
+                    description: row.c[3]?.v || '',
+                    price: row.c[4]?.v || 0,
+                    image: row.c[5]?.v || ''
+                }));
+                
+                // محاولة تحميل التصنيفات
+                fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Categories`)
+                    .then(response => response.text())
+                    .then(text => {
+                        const jsonText = text.substring(47).slice(0, -2);
+                        const data = JSON.parse(jsonText);
+                        categories = ["الكل", ...data.table.rows.map(row => row.c[0]?.v || '')];
                         init();
                     })
                     .catch(() => {
+                        // إذا ما في ورقة Categories، خذ من المنتجات
                         const uniqueCategories = [...new Set(products.map(p => p.category))];
                         categories = ["الكل", ...uniqueCategories];
                         init();
@@ -362,7 +373,10 @@
                 document.getElementById('productsGrid').innerHTML = 
                     `<div class="error">
                         ❌ حدث خطأ في تحميل المنتجات<br>
-                        <small>تأكد من أن رابط Google Sheet صحيح ومتاح للجميع</small>
+                        <small>تأكد من:</small><br>
+                        <small>1. أن sheet متاح للجميع (Anyone with the link)</small><br>
+                        <small>2. أن ورقة اسمها "Products" موجودة</small><br>
+                        <small>3. أن في بيانات بالورقة</small>
                     </div>`;
             });
     </script>
