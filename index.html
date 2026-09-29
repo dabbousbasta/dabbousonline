@@ -1,1035 +1,391 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f766e">
-    <meta name="description" content="بوابة صفحات وأنظمة دبوس البسطة">
-    <title>دبوس البسطة | بوابة الصفحات</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <title>دبوس اونلاين</title>
+    
+    <!-- أيقونة الموقع -->
+    <link rel="icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
+    <link rel="shortcut icon" type="image/jpg" href="images/دبوس اونلاين.jpg">
+    
+    <!-- خط Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --primary: #0f766e;
-            --primary-dark: #0b5f58;
-            --primary-light: #ccfbf1;
-            --secondary: #f59e0b;
-            --dark: #172033;
-            --text: #344054;
-            --muted: #667085;
-            --bg: #f5f7fb;
-            --card: #ffffff;
-            --border: #e4e7ec;
-            --success: #16a34a;
-            --danger: #dc2626;
-            --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
-            --shadow-hover: 0 18px 40px rgba(16, 24, 40, 0.15);
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: "Cairo", sans-serif;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        
         body {
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at top right, rgba(20, 184, 166, 0.14), transparent 32%),
-                radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.12), transparent 28%),
-                var(--bg);
-            color: var(--text);
+            background-color: #f5f5f5;
+            padding: 20px;
         }
-
+        
         .container {
-            width: min(1280px, calc(100% - 32px));
+            max-width: 1200px;
             margin: 0 auto;
         }
-
-        /* =========================
-           Header
-        ========================= */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            margin: 26px 0 24px;
-            padding: 34px;
-            border-radius: 26px;
-            background: linear-gradient(135deg, #0f766e 0%, #115e59 55%, #134e4a 100%);
-            color: #fff;
-            box-shadow: 0 18px 45px rgba(15, 118, 110, 0.28);
-        }
-
-        .hero::before,
-        .hero::after {
-            content: "";
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            pointer-events: none;
-        }
-
-        .hero::before {
-            width: 260px;
-            height: 260px;
-            top: -120px;
-            left: -80px;
-        }
-
-        .hero::after {
-            width: 180px;
-            height: 180px;
-            bottom: -90px;
-            right: 9%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .logo {
-            width: 76px;
-            height: 76px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            border: 3px solid rgba(255, 255, 255, 0.5);
-            border-radius: 22px;
-            background: rgba(255, 255, 255, 0.14);
-            color: #fff;
-            font-size: 34px;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.13);
-        }
-
-        .brand h1 {
-            font-size: clamp(24px, 3vw, 36px);
-            font-weight: 800;
-            line-height: 1.4;
-            margin-bottom: 4px;
-        }
-
-        .brand p {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 15px;
-        }
-
-        .header-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .date-box,
-        .pages-counter {
-            min-width: 140px;
-            padding: 12px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(8px);
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
             text-align: center;
-        }
-
-        .date-box span,
-        .pages-counter span {
-            display: block;
-            color: rgba(255, 255, 255, 0.78);
-            font-size: 12px;
-        }
-
-        .date-box strong,
-        .pages-counter strong {
-            display: block;
-            margin-top: 3px;
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        /* =========================
-           Quick links
-        ========================= */
-        .quick-section {
-            margin-bottom: 22px;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 14px;
-        }
-
-        .section-title h2 {
-            color: var(--dark);
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .section-title p {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-        }
-
-        .quick-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--card);
-            box-shadow: 0 5px 15px rgba(16, 24, 40, 0.04);
-            text-decoration: none;
-            color: var(--dark);
-            transition: 0.25s ease;
-        }
-
-        .quick-link:hover {
-            transform: translateY(-3px);
-            border-color: #99f6e4;
-            box-shadow: var(--shadow);
-        }
-
-        .quick-icon {
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            border-radius: 12px;
-            background: #ecfdf5;
-            font-size: 20px;
-        }
-
-        .quick-link span {
-            display: block;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .quick-link strong {
-            display: block;
-            font-size: 14px;
-            font-weight: 800;
-        }
-
-        /* =========================
-           Controls
-        ========================= */
-        .toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin: 28px 0 18px;
-        }
-
-        .search-box {
-            position: relative;
-            width: min(390px, 100%);
-        }
-
-        .search-box .search-icon {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: var(--muted);
-            pointer-events: none;
-            font-size: 18px;
-        }
-
-        #searchInput {
-            width: 100%;
-            height: 48px;
-            padding: 0 46px 0 16px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            outline: none;
-            background: #fff;
-            color: var(--text);
-            font-size: 14px;
-            transition: 0.2s ease;
-        }
-
-        #searchInput:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.11);
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .filter-btn {
-            padding: 9px 15px;
-            border: 1px solid var(--border);
-            border-radius: 99px;
-            background: #fff;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
-            transition: 0.2s ease;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            border-color: var(--primary);
-            background: var(--primary);
-            color: #fff;
-        }
-
-        /* =========================
-           Cards
-        ========================= */
-        .pages-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-            padding-bottom: 30px;
-        }
-
-        .page-card {
-            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            min-height: 292px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            background: var(--card);
-            box-shadow: 0 6px 18px rgba(16, 24, 40, 0.05);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            align-items: center;
+            gap: 15px;
         }
-
-        .page-card:hover {
-            transform: translateY(-6px);
-            border-color: #99f6e4;
-            box-shadow: var(--shadow-hover);
-        }
-
-        .page-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 5px;
-            background: var(--card-color, var(--primary));
-        }
-
-        .card-top {
+        
+        .logo-container {
             display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .store-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-color: white;
+        }
+        
+        .store-title {
+            display: flex;
+            flex-direction: column;
             align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 23px 20px 12px;
         }
-
-        .card-icon {
-            width: 58px;
-            height: 58px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            border-radius: 17px;
-            background: var(--icon-bg, #ccfbf1);
-            color: var(--icon-color, #0f766e);
-            font-size: 28px;
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
         }
-
-        .card-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 36px;
-            height: 30px;
-            padding: 0 10px;
-            border-radius: 99px;
-            background: #f2f4f7;
-            color: #475467;
-            font-size: 12px;
-            font-weight: 800;
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
         }
-
-        .card-content {
-            flex: 1;
-            padding: 0 20px 14px;
-        }
-
-        .card-content h3 {
-            margin-bottom: 8px;
-            color: var(--dark);
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .card-content p {
-            min-height: 48px;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.85;
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            padding: 0 20px 16px;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 9px;
-            border-radius: 99px;
-            background: #f2f4f7;
-            color: #475467;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .tag.public {
-            background: #ecfdf3;
-            color: #027a48;
-        }
-
-        .tag.admin {
-            background: #fff4e5;
-            color: #b54708;
-        }
-
-        .card-actions {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 9px;
-            padding: 15px 20px 20px;
-            margin-top: auto;
-            border-top: 1px solid #f0f2f5;
-        }
-
-        .open-btn,
-        .copy-btn {
-            height: 43px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            border-radius: 11px;
-            font-size: 13px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .open-btn {
-            border: 1px solid var(--primary);
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .open-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .copy-btn {
-            width: 44px;
-            border: 1px solid var(--border);
-            background: #fff;
-            color: #475467;
-        }
-
-        .copy-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: #f0fdfa;
-        }
-
-        /* =========================
-           Empty state / footer
-        ========================= */
-        .empty-state {
-            grid-column: 1 / -1;
-            padding: 55px 20px;
-            border: 1px dashed #cbd5e1;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.7);
-            color: var(--muted);
+        
+        .filter-container {
             text-align: center;
+            margin-bottom: 30px;
         }
-
-        .empty-state .empty-icon {
-            display: block;
+        
+        .filter-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-category {
+            color: #667eea;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .product-name {
+            font-size: 1.4em;
+            color: #333;
             margin-bottom: 10px;
-            font-size: 38px;
+            font-weight: bold;
         }
-
+        
+        .product-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-size: 1.6em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-btn {
+            display: block;
+            width: 100%;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+        }
+        
         footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 8px;
-            padding: 18px 0 28px;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 12px;
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
         }
-
-        .toast {
-            position: fixed;
-            right: 50%;
-            bottom: 25px;
-            z-index: 1000;
-            padding: 12px 18px;
-            border-radius: 12px;
-            background: #172033;
-            color: #fff;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-            font-size: 13px;
-            font-weight: 700;
-            transform: translate(50%, 100px);
-            opacity: 0;
-            transition: 0.28s ease;
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.5em;
+            color: #667eea;
         }
-
-        .toast.show {
-            transform: translate(50%, 0);
-            opacity: 1;
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: red;
         }
-
-        /* =========================
-           Mobile
-        ========================= */
-        @media (max-width: 1024px) {
-            .quick-links {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pages-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 720px) {
-            .container {
-                width: min(100% - 22px, 1280px);
-            }
-
-            .hero {
-                margin-top: 12px;
-                padding: 24px 18px;
-                border-radius: 20px;
-            }
-
-            .hero-content {
-                align-items: stretch;
+        
+        @media (max-width: 768px) {
+            header {
                 flex-direction: column;
+                text-align: center;
             }
-
-            .brand {
+            
+            .logo-container {
+                flex-direction: column;
                 align-items: center;
             }
-
-            .logo {
-                width: 62px;
-                height: 62px;
-                border-radius: 18px;
-                font-size: 28px;
+            
+            .store-title {
+                align-items: center;
+                text-align: center;
             }
-
-            .brand h1 {
-                font-size: 24px;
+            
+            h1 {
+                font-size: 1.8em;
             }
-
-            .brand p {
-                font-size: 12px;
+            
+            .store-logo {
+                width: 80px;
+                height: 80px;
             }
-
-            .header-info {
-                width: 100%;
-            }
-
-            .date-box,
-            .pages-counter {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .toolbar {
-                align-items: stretch;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .filters {
-                justify-content: flex-start;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 4px;
-            }
-
-            .filter-btn {
-                white-space: nowrap;
-            }
-
-            .quick-links,
-            .pages-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 3px;
-            }
-
-            footer {
-                align-items: flex-start;
-                flex-direction: column;
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-
-    <main class="container">
-        <header class="hero">
-            <div class="hero-content">
-                <div class="brand">
-                    <div class="logo">🏪</div>
-                    <div>
-                        <h1>دبوس البسطة</h1>
-                        <p>بوابة الصفحات والأنظمة الخاصة بإدارة العمل</p>
-                    </div>
-                </div>
-
-                <div class="header-info">
-                    <div class="pages-counter">
-                        <span>عدد الصفحات</span>
-                        <strong id="pagesCount">0 صفحات</strong>
-                    </div>
-
-                    <div class="date-box">
-                        <span>تاريخ اليوم</span>
-                        <strong id="todayDate">...</strong>
-                    </div>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="images/دبوس اونلاين.jpg" alt="شعار المتجر" class="store-logo" onerror="this.style.display='none'">
+                <div class="store-title">
+                    <h1 id="storeName">دبوس اونلاين</h1>
+                    <div class="subtitle">من الأساس حتى التشطيب</div>
                 </div>
             </div>
         </header>
-
-        <section class="quick-section">
-            <div class="section-title">
-                <h2>⚡ الوصول السريع</h2>
-                <p>الصفحات الأكثر استخداماً خلال العمل اليومي</p>
-            </div>
-
-            <div class="quick-links" id="quickLinks"></div>
-        </section>
-
-        <section>
-            <div class="toolbar">
-                <div class="search-box">
-                    <span class="search-icon">⌕</span>
-                    <input
-                        type="search"
-                        id="searchInput"
-                        placeholder="ابحث عن صفحة، نظام، مبيعات، مخزون..."
-                        autocomplete="off"
-                    >
-                </div>
-
-                <div class="filters" id="filters"></div>
-            </div>
-
-            <div class="pages-grid" id="pagesGrid"></div>
-        </section>
-
+        
+        <div class="filter-container" id="filterContainer"></div>
+        
+        <div class="products-grid" id="productsGrid">
+            <div class="loading">⏳ جارٍ تحميل المنتجات...</div>
+        </div>
+        
         <footer>
-            <span>© <span id="year"></span> دبوس البسطة — جميع الحقوق محفوظة</span>
-            <span>آخر تحديث: <span id="lastUpdate"></span></span>
+            <p>جميع الحقوق محفوظة © 2026</p>
+            <p>للتواصل: اضغط على زر الواتساب تحت أي منتج</p>
         </footer>
-    </main>
-
-    <div class="toast" id="toast">تم نسخ الرابط بنجاح</div>
-
+    </div>
+    
     <script>
-        /*
-         * ========================================
-         * أضف أو عدّل الصفحات من هذا المكان فقط
-         * ========================================
-         *
-         * category:
-         * - مبيعات
-         * - إدارة
-         * - تقارير
-         * - مواقع
-         * - أدوات
-         *
-         * quick: true لعرض الصفحة ضمن الوصول السريع.
-         */
-
-        const pages = [
-            {
-                id: 1,
-                title: "نظام المبيعات",
-                description: "إدارة الفواتير والمبيعات والعملاء وحركة البيع اليومية.",
-                url: "https://dabbousbasta.github.io/",
-                icon: "🧾",
-                category: "مبيعات",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: true,
-                color: "#2563eb",
-                iconBg: "#dbeafe"
-            },
-            {
-                id: 2,
-                title: "نظام المشتريات",
-                description: "متابعة المشتريات والموردين والفواتير وكلفة البضاعة.",
-                url: "#",
-                icon: "📦",
-                category: "إدارة",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: false,
-                color: "#7c3aed",
-                iconBg: "#ede9fe"
-            },
-            {
-                id: 3,
-                title: "إدارة المخزون",
-                description: "متابعة الأصناف والكميات وحركة إدخال وإخراج المنتجات.",
-                url: "#",
-                icon: "📊",
-                category: "إدارة",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: true,
-                color: "#ea580c",
-                iconBg: "#ffedd5"
-            },
-            {
-                id: 4,
-                title: "تقارير دبوس البسطة",
-                description: "عرض التقارير والإحصاءات الخاصة بالمبيعات والمخزون والأرباح.",
-                url: "#",
-                icon: "📈",
-                category: "تقارير",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: false,
-                color: "#0891b2",
-                iconBg: "#cffafe"
-            },
-            {
-                id: 5,
-                title: "كتالوج المنتجات",
-                description: "عرض المنتجات والصور والأسعار ضمن كتالوج سهل للمشاركة.",
-                url: "#",
-                icon: "🛍️",
-                category: "مواقع",
-                access: "public",
-                accessLabel: "صفحة عامة",
-                quick: false,
-                color: "#db2777",
-                iconBg: "#fce7f3"
-            },
-            {
-                id: 6,
-                title: "أدوات العمل",
-                description: "صفحات وأدوات مساعدة لإدارة البيانات والفواتير والملفات.",
-                url: "#",
-                icon: "🛠️",
-                category: "أدوات",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: false,
-                color: "#4f46e5",
-                iconBg: "#e0e7ff"
-            },
-
-            /* ======================================
-               الصفحات الجديدة المطلوبة
-            ====================================== */
-            {
-                id: 7,
-                title: "دبوس أونلاين",
-                description: "المتجر الإلكتروني لعرض المنتجات والتصنيفات والأسعار واستقبال الطلبات عبر واتساب.",
-                url: "https://dabbousbasta.github.io/dabous-online-store/#/",
-                icon: "🛒",
-                category: "مواقع",
-                access: "public",
-                accessLabel: "صفحة عامة",
-                quick: true,
-                color: "#16a34a",
-                iconBg: "#dcfce7"
-            },
-            {
-                id: 8,
-                title: "أدمن دبوس أونلاين",
-                description: "لوحة إدارة المتجر الإلكتروني لإضافة المنتجات وتعديلها وإدارة التصنيفات والبيانات.",
-                url: "https://dabbousbasta.github.io/dabous-online-store/#/admin",
-                icon: "⚙️",
-                category: "إدارة",
-                access: "admin",
-                accessLabel: "دخول مسؤول",
-                quick: true,
-                color: "#d97706",
-                iconBg: "#fef3c7"
-            }
-        ];
-
-        const categoryIcons = {
-            "الكل": "☰",
-            "مبيعات": "🧾",
-            "إدارة": "⚙️",
-            "تقارير": "📈",
-            "مواقع": "🌐",
-            "أدوات": "🛠️"
+        const STORE_CONFIG = {
+            storeName: "دبوس اونلاين",
+            whatsappNumber: "9613947353",
+            currency: "$"
         };
-
-        let activeCategory = "الكل";
-        let searchTerm = "";
-
-        const pagesGrid = document.getElementById("pagesGrid");
-        const filtersContainer = document.getElementById("filters");
-        const quickLinksContainer = document.getElementById("quickLinks");
-        const searchInput = document.getElementById("searchInput");
-        const toast = document.getElementById("toast");
-
-        function setDateInfo() {
-            const now = new Date();
-
-            document.getElementById("todayDate").textContent = new Intl.DateTimeFormat(
-                "ar-LB",
-                {
-                    weekday: "short",
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric"
-                }
-            ).format(now);
-
-            document.getElementById("lastUpdate").textContent = new Intl.DateTimeFormat(
-                "ar-LB",
-                {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                }
-            ).format(now);
-
-            document.getElementById("year").textContent = now.getFullYear();
-            document.getElementById("pagesCount").textContent = `${pages.length} صفحات`;
+        
+        let products = [];
+        let categories = [];
+        
+        function formatPrice(price) {
+            return price.toLocaleString() + " " + STORE_CONFIG.currency;
         }
-
-        function getCategories() {
-            return ["الكل", ...new Set(pages.map(page => page.category))];
+        
+        function getWhatsAppMessage(product) {
+            const message = `مرحباً، أريد الاستفسار عن المنتج:\n\n` +
+                           `*${product.name}*\n` +
+                           `السعر: ${formatPrice(product.price)}\n` +
+                           `المواصفات: ${product.description}\n\n` +
+                           `هل يتوفر؟`;
+            return encodeURIComponent(message);
         }
-
+        
         function renderFilters() {
-            const categories = getCategories();
-
-            filtersContainer.innerHTML = categories.map(category => `
-                <button
-                    class="filter-btn ${category === activeCategory ? "active" : ""}"
-                    type="button"
-                    data-category="${category}"
-                >
-                    ${categoryIcons[category] || "•"} ${category}
-                </button>
-            `).join("");
-
-            document.querySelectorAll(".filter-btn").forEach(button => {
-                button.addEventListener("click", () => {
-                    activeCategory = button.dataset.category;
-                    renderFilters();
-                    renderPages();
-                });
-            });
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = categories.map((cat, index) => 
+                `<button class="filter-btn ${index === 0 ? 'active' : ''}" 
+                         onclick="filterProducts('${cat}', this)">${cat}</button>`
+            ).join('');
         }
-
-        function renderQuickLinks() {
-            const quickPages = pages.filter(page => page.quick).slice(0, 4);
-
-            quickLinksContainer.innerHTML = quickPages.map(page => `
-                <a
-                    class="quick-link"
-                    href="${page.url}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="فتح ${page.title}"
-                >
-                    <div class="quick-icon">${page.icon}</div>
-                    <div>
-                        <strong>${page.title}</strong>
-                        <span>${page.category}</span>
-                    </div>
-                </a>
-            `).join("");
-        }
-
-        function getFilteredPages() {
-            return pages.filter(page => {
-                const matchCategory =
-                    activeCategory === "الكل" || page.category === activeCategory;
-
-                const searchableText = `
-                    ${page.title}
-                    ${page.description}
-                    ${page.category}
-                    ${page.accessLabel}
-                `.toLowerCase();
-
-                const matchSearch = searchableText.includes(searchTerm.toLowerCase());
-
-                return matchCategory && matchSearch;
-            });
-        }
-
-        function renderPages() {
-            const filteredPages = getFilteredPages();
-
-            if (filteredPages.length === 0) {
-                pagesGrid.innerHTML = `
-                    <div class="empty-state">
-                        <span class="empty-icon">🔎</span>
-                        <strong>لا توجد صفحات مطابقة للبحث</strong>
-                        <p style="margin-top: 7px;">جرّب كتابة اسم مختلف أو اختر تصنيفاً آخر.</p>
+        
+        function renderProducts(productsToRender) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = productsToRender.map(product => {
+                // إذا ما في صورة، استخدم الصورة الافتراضية
+                const imageSrc = product.image && product.image.trim() !== '' 
+                    ? product.image 
+                    : 'images/دبوس اونلاين.jpg';
+                
+                return `
+                    <div class="product-card">
+                        <img src="${imageSrc}" alt="${product.name}" class="product-image" 
+                             onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=لا+توجد+صورة'">
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-price">${formatPrice(product.price)}</div>
+                            <a href="https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${getWhatsAppMessage(product)}" 
+                               class="whatsapp-btn" target="_blank">
+                                📱 اطلب عبر واتساب
+                            </a>
+                        </div>
                     </div>
                 `;
-                return;
-            }
-
-            pagesGrid.innerHTML = filteredPages.map(page => `
-                <article
-                    class="page-card"
-                    style="
-                        --card-color: ${page.color};
-                        --icon-bg: ${page.iconBg};
-                        --icon-color: ${page.color};
-                    "
-                >
-                    <div class="card-top">
-                        <div class="card-icon">${page.icon}</div>
-                        <span class="card-number">#${page.id}</span>
-                    </div>
-
-                    <div class="card-content">
-                        <h3>${page.title}</h3>
-                        <p>${page.description}</p>
-                    </div>
-
-                    <div class="tags">
-                        <span class="tag">${categoryIcons[page.category] || "•"} ${page.category}</span>
-                        <span class="tag ${page.access}">
-                            ${page.access === "admin" ? "🔒" : "🌐"} ${page.accessLabel}
-                        </span>
-                    </div>
-
-                    <div class="card-actions">
-                        <a
-                            class="open-btn"
-                            href="${page.url}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span>فتح الصفحة</span>
-                            <span>↗</span>
-                        </a>
-
-                        <button
-                            class="copy-btn"
-                            type="button"
-                            title="نسخ الرابط"
-                            aria-label="نسخ رابط ${page.title}"
-                            onclick="copyLink('${page.url}')"
-                        >
-                            ⧉
-                        </button>
-                    </div>
-                </article>
-            `).join("");
+            }).join('');
         }
-
-        async function copyLink(url) {
-            try {
-                await navigator.clipboard.writeText(url);
-                showToast("تم نسخ الرابط بنجاح ✓");
-            } catch (error) {
-                const textarea = document.createElement("textarea");
-                textarea.value = url;
-                textarea.style.position = "fixed";
-                textarea.style.opacity = "0";
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                textarea.remove();
-
-                showToast("تم نسخ الرابط بنجاح ✓");
+        
+        function filterProducts(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (category === 'الكل') {
+                renderProducts(products);
+            } else {
+                renderProducts(products.filter(p => p.category === category));
             }
         }
-
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add("show");
-
-            clearTimeout(window.toastTimer);
-
-            window.toastTimer = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2200);
-        }
-
-        searchInput.addEventListener("input", event => {
-            searchTerm = event.target.value.trim();
-            renderPages();
-        });
-
+        
         function init() {
-            setDateInfo();
-            renderQuickLinks();
+            document.getElementById('storeName').textContent = STORE_CONFIG.storeName;
             renderFilters();
-            renderPages();
+            renderProducts(products);
         }
-
-        init();
+        
+        // ===== تحميل البيانات من Google Sheets =====
+        const SHEET_ID = "13bsXvpSZSGRBwiJqiGPCFG3LonORgLUdGUXRwn7PjJ0";
+        
+        // تحميل المنتجات
+        fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`)
+            .then(res => res.text())
+            .then(text => {
+                const json = JSON.parse(text.substr(47).slice(0, -2));
+                
+                products = json.table.rows.map(row => {
+                    const c = row.c;
+                    return {
+                        id: c[0] ? c[0].v : 0,
+                        name: c[1] ? c[1].v : '',
+                        category: c[2] ? c[2].v : '',
+                        description: c[3] ? c[3].v : '',
+                        price: c[4] ? c[4].v : 0,
+                        image: c[5] ? c[5].v : ''
+                    };
+                });
+                
+                console.log('Products:', products);
+                
+                // تحميل التصنيفات
+                fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Categories`)
+                    .then(res => res.text())
+                    .then(text => {
+                        const json = JSON.parse(text.substr(47).slice(0, -2));
+                        const cats = json.table.rows
+                            .map(row => row.c[0] ? row.c[0].v : '')
+                            .filter(cat => cat && cat !== 'category');
+                        
+                        categories = ["الكل", ...cats];
+                        console.log('Categories:', categories);
+                        init();
+                    })
+                    .catch(() => {
+                        const uniqueCats = [...new Set(products.map(p => p.category))];
+                        categories = ["الكل", ...uniqueCats];
+                        console.log('Categories from products:', categories);
+                        init();
+                    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('productsGrid').innerHTML = 
+                    `<div class="error">
+                        ❌ حدث خطأ في تحميل المنتجات<br>
+                        <small>${error.message}</small>
+                    </div>`;
+            });
     </script>
 </body>
 </html>
